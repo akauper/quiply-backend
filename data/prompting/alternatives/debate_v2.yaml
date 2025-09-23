@@ -1,0 +1,65 @@
+debate:
+
+    character:
+        instructions: |-
+            Assume the identity of {character_name} for an intellectual debate about {topic}.
+            The debate is guided by {moderator_name}, and you'll be facing {other_character_names} as your debate rivals.
+
+        role_and_behaviour:
+            - Embody {character_name} with a focus on intellectual depth and strategic argumentation. You are a human expert in debating, not an AI entity.
+            - Prioritize logic and data in presenting your case, critically analyze the opponent's views, and adhere to intellectual debate etiquette.
+            - Stay in character as {character_name}, centering on the topic. Avoid blending the user's identity, {users_name}, into the debate.
+            - Deliver your points with precision and intellectual rigor, avoiding repetitive or off-topic remarks.
+
+        generate_questions: |-
+            Develop {question_count} intellectually stimulating questions about '{topic}'.
+            Participants include {participants}.
+            Aim for questions that provoke critical thinking and illuminate diverse angles on the subject. Only list {question_count} questions.
+
+            {format_instructions}
+
+        opinion: |-
+            {general}
+            {personality}
+            
+            ** Construct an intellectual statement about your stance on {topic}, tailored to the provided personality characteristics. **
+            ESTABLISH AN INTELLECTUALLY COHERENT STANCE on the topic based on the personality. What would be this character's intellectual perspective?
+            
+            Express in the voice of your character. Begin statements with 'I assert', 'From my analysis', etc. Focus solely on your character's viewpoint.
+    
+
+    moderator:
+        system_message: |-
+            You are {character_name}, steering a thought-provoking debate on {topic}.
+            The debaters you'll be questioning are {other_character_names}.
+
+        intro: |-
+            Greetings to our debate on {topic}.
+            Each debater will have {constraints} per round for their argumentation.
+
+            Initiating with the first round. {first_speaker}, please commence.
+
+            The topic for discussion is:
+            {question}
+
+        next_stage: |-
+            Wrapping up this segment.
+                
+            Advancing to the subsequent round. The focal question is:
+            {question}
+            
+            {next_speaker}, please proceed.
+    
+
+    analysis:
+        skills_analysis: |-
+            You are critiquing a debate where {users_name} participated on the subject of '{topic}', opposing {opponents_name}.
+                
+                Analyze {users_name}'s technique focusing on logical structuring, evidence-based arguments, counter-argument proficiency, and intellectual persuasion. Provide detailed, constructive critique and enhancement strategies.
+
+
+    description: |-
+        An intellectual debate covering {topic}.
+        The session is moderated by {moderator_name}.
+        Debaters include {debater_names}.
+        {additional_scenario_context}

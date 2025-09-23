@@ -1,0 +1,203 @@
+app_title: "Quiply"
+app_version: "0.0.1"
+site_domain: "quiply.ai"
+host: "0.0.0.0"
+port: 5005
+workers: 8
+reload: false
+timeout: 120
+
+fastapi:
+    title: "Quiply API"
+    version: 1
+    docs_url: "/docs"
+    redoc_url: "/redoc"
+    contact:
+        name: "Quiply"
+        url: "https://quiply.ai"
+        email: "support@quiply.ai"
+
+    cors_origins:
+        - "http://localhost:3000"
+        - "http://localhost:8080"
+        - "https://quiply.ai"
+    cors_origins_regex: null
+    cors_methods:
+        - "GET"
+        - "POST"
+        - "PUT"
+        - "DELETE"
+        - "OPTIONS"
+        - "PATCH"
+    cors_headers:
+        - "Authorization"
+        - "Content-Type"
+        - "X-Requested-With"
+        - "Accept"
+        - "Origin"
+        - "Access-Control-Request-Method"
+        - "Access-Control-Request-Headers"
+
+    allow_registration: true
+
+websocket:
+    accept_timeout: 30
+    ready_event_timeout: 30
+
+logging:
+    base_log_level: INFO
+    log_to_file: false
+
+    system_log_level: INFO
+    fastapi_log_level: INFO
+    storage_log_level: INFO
+    evaluation_log_level: DEBUG
+    framework_log_level: DEBUG
+    scenario_log_level: DEBUG
+
+# Check framework/settings directory for definitions
+framework:
+    evaluation:
+        enabled: True
+        prompt_keys:
+            - 'v1'
+        multi_run_count: 1
+        included_runnable_types: # Leave empty to include all supported types
+            - 'Agent'
+            - 'TextGenerator'
+
+    prompting:
+        data_dir: '../../data/prompting'
+
+    runnables:
+        classifiers:
+            transformer_name: 'deberta-v3-base-prompt-injection'
+            transformer_task: 'text-classification'
+            use_gpu: False
+
+        generators:
+            audio:
+                enabled: true
+                service_name: 'eleven_labs'
+                generation_params:
+                    voice_id: 'EXAVITQu4vr4xnSDxMaL'
+                    model: 'eleven_turbo_v2'
+                    stability: 0.71
+                    similarity_boost: 0.0
+                    style: 0.0
+                    use_speaker_boost: True
+                    output_format: 'mp3_44100_128'
+                    latency: 1
+                    stream_chunk_size: 2048
+                services:
+                    eleven_labs:
+                        url_base: 'https://api.elevenlabs.io/v1'
+                        ws_url_base: 'wss://api.elevenlabs.io/v1'
+                        headers:
+                            Accept: 'audio/mpeg'
+                            'Content-Type': 'application/json'
+
+            diarization:
+                enabled: true
+                service_name: 'pyannote'
+                generation_params:
+                    device: 'cpu'
+                    mode: 'detection'
+                    min_duration_on: 0.0
+                    min_duration_off: 0.0
+                    batch_size: 32
+                services:
+                    pyannote:
+                        detection_checkpoint: 'pyannote/segmentation-3.0'
+                        diarization_checkpoint: 'pyannote/speaker-diarization-3.1'
+
+            embeddings:
+                enabled: true
+                service_name: 'openai'
+                generation_params:
+                    model: 'text-embedding-3-small'
+
+            moderation:
+                enabled: true
+                service_names:
+                    - 'openai'
+                    - 'transformers'
+                generation_params:
+                    device: 'cpu'
+
+            speech_to_text:
+                enabled: true
+                service_name: 'whisper'
+                generation_params:
+                    model: 'base'
+                    device: 'cpu'
+                    task: 'transcribe'
+                    language: 'en'
+                    temperature: 0.0
+                    suppress_tokens: '-1'
+                    suppress_blank: True
+                    without_timestamps: False
+                    max_initial_timestamp: 1.0
+
+            text:
+                enabled: true
+                #        service_name: 'anthropic'
+                service_name: 'openai'
+                generation_params:
+                    #          model: 'claude-3-5-sonnet-20240620'
+                    model: 'gpt-4o'
+                services:
+                    anthropic:
+                        default_model: 'claude-3-5-sonnet-20240620'
+                    openai:
+                        default_model: 'gpt-4o'
+
+services:
+    storage:
+        enabled: true
+        provider: firestore
+        app_package_update_interval: 5
+        cache:
+            enabled: true
+            prefetch_templates: true
+            max_size: 10_000
+
+scenario:
+    logging:
+        base_log_level: DEBUG
+        log_to_file: false
+
+        stage_log_level: DEBUG
+        llm_log_level: DEBUG
+        websocket_log_level: DEBUG
+
+    message_mode: stream # sync, async, or stream
+
+    max_conversation_tokens: -1 # -1 for unlimited
+
+evaluation:
+    enabled: false
+    mode: multi_prompt  # replace_prompts or multi_prompt
+    evaluation_count: 3  # number of evaluations per prompt
+    evaluation_prompt_key: "v1"
+
+debug:
+    enabled: false
+    force_user_id: null # 'null' or a user id        7BugpH33o6alv7mqphZbRN85ng52
+
+    use_pregenerated_personality: true
+    use_pregenerated_stages: false
+    use_pregenerated_conversations: true
+
+    conversation:
+        enabled: true
+
+    debate:
+        enabled: true
+        use_pregenerated_opinion: false
+
+    interview:
+        enabled: true
+
+    speed_dating:
+        enabled: true

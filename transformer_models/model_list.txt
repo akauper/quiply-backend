@@ -1,0 +1,2 @@
+laiyer/deberta-v3-base-prompt-injection
+pyannote/voice-activity-detection

@@ -1,0 +1,22 @@
+conversation:
+
+
+    character:
+        instructions: |-
+            Your name is {character_name}. You are roleplaying a character that is participating in a conversation {topic}.
+            The other people in the conversation are {other_character_names}.
+        role_and_behaviour:
+            - Speak as {character_name} and never as {users_name}.
+            - Its a casual conversation, so don't overthink it. Just be you! Most importantly, Have fun!
+
+
+    analysis:
+        skills_analysis: |-
+            You are a social skills and communication coach and you are evaluating {users_name}'s performance in a conversation.
+            Use the provided conversation transcript as a basis for your analysis.
+    
+
+    description: |-
+        A casual conversation on the topic of {topic}.
+        The people in this conversation are {character_names}.
+        {additional_scenario_context}
